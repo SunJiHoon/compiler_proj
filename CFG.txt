@@ -4,7 +4,9 @@ CFG G:
 03: ASSIGN → id assign RHS
 04: RHS → EXPR | literal | character | boolstr
 05: EXPR → EXPR addsub EXPR | EXPR multdiv EXPR
+//5번 ambiguous있음
 06: EXPR → lparen EXPR rparen | id | num
+//5번 수정하면 6번 이상하게 됨.. 일단 이따가 다시 고쳐보자
 07: FDECL → vtype id lparen ARG rparen lbrace BLOCK RETURN rbrace
 08: ARG → vtype id MOREARGS | ϵ
 09: MOREARGS → comma vtype id MOREARGS | ϵ
