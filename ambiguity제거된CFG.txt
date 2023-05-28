@@ -34,10 +34,15 @@ STMT -> ASSIGN semi
 STMT -> if lparen COND rparen lbrace BLOCK rbrace ELSE
 STMT -> while lparen COND rparen lbrace BLOCK rbrace
 -----------------------------
-//14번 컨디션 ambiguous있음
-COND -> COND comp COND | boolstr
+//14번 컨디션 ambiguous있음 -> 대체함
+x COND -> COND comp COND | boolstr 를
+
+o 
+COND -> boolstr comp COND 
+COND -> boolstr
 -------------------------------
-ELSE -> else lbrace BLOCK rbrace | ''
+ELSE -> else lbrace BLOCK rbrace 
+ELSE -> ''
 RETURN -> return RHS semi
 CDECL -> class id lbrace ODECL rbrace
 ODECL -> VDECL ODECL
