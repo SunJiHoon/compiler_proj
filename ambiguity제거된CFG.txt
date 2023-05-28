@@ -1,9 +1,7 @@
-https://jsmachines.sourceforge.net/machines/slr.html 에 넣을 수 있게 변형
-CFG G:
 CODE -> VDECL CODE 
 CODE ->FDECL CODE 
 CODE ->CDECL CODE
-CODE ->ϵ
+CODE ->''
 VDECL -> vtype id semi 
 VDECL -> vtype ASSIGN semi
 ASSIGN -> id assign RHS
@@ -11,19 +9,12 @@ RHS -> EXPR
 RHS -> literal
 RHS -> character
 RHS -> boolstr
-
----------------------------------
-//5번 ambiguous있음
-수정함
 EXPR -> EXPR_
 EXPR -> EXPR_ addsub EXPR
 EXPR -> EXPR_ multdiv EXPR
---------------------------------
-//5번 수정함에 따라 6번도 수정
 EXPR_ -> lparen EXPR rparen 
 EXPR_ -> id 
 EXPR_ -> num
---------------------------------
 FDECL -> vtype id lparen ARG rparen lbrace BLOCK RETURN rbrace
 ARG -> vtype id MOREARGS 
 ARG -> ''
@@ -35,14 +26,8 @@ STMT -> VDECL
 STMT -> ASSIGN semi
 STMT -> if lparen COND rparen lbrace BLOCK rbrace ELSE
 STMT -> while lparen COND rparen lbrace BLOCK rbrace
------------------------------
-//14번 컨디션 ambiguous있음 -> 대체함
-x COND -> COND comp COND | boolstr 를
-
-o 
 COND -> boolstr comp COND 
 COND -> boolstr
--------------------------------
 ELSE -> else lbrace BLOCK rbrace 
 ELSE -> ''
 RETURN -> return RHS semi
@@ -50,28 +35,3 @@ CDECL -> class id lbrace ODECL rbrace
 ODECL -> VDECL ODECL
 ODECL -> FDECL ODECL
 ODECL -> ''
-
-✓ Terminals (21)
-1. vtype for the types of variables and functions
-2. num for signed integers
-3. character for a single character
-4. boolstr for Boolean strings
-5. literal for literal strings
-6. id for the identifiers of variables and functions
-7. if, else, while, and return for if, else, while, and return statements respectively
-8. class for class declarations 
-9. addsub for + and - arithmetic operators
-10. multdiv for * and / arithmetic operators
-11. assign for assignment operators
-12. comp for comparison operators
-13. semi and comma for semicolons and commas respectively
-14. lparen, rparen, lbrace, and rbrace for (, ), {, and } respectively
-
-
-✓ Non-terminals (15)
-CODE, VDECL, ASSIGN, RHS, EXPR, FDECL, ARG, MOREARGS, BLOCK, STMT, COND, ELSE, 
-RETURN, CDECL, ODECL
-
-✓ Start symbol: CODE
-
-
