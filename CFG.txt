@@ -15,6 +15,7 @@ CFG G:
 12: STMT → if lparen COND rparen lbrace BLOCK rbrace ELSE
 13: STMT → while lparen COND rparen lbrace BLOCK rbrace
 14: COND → COND comp COND | boolstr
+//14번 컨디션 ambiguous있음
 15: ELSE → else lbrace BLOCK rbrace | ϵ
 16: RETURN → return RHS semi
 17: CDECL → class id lbrace ODECL rbrace
