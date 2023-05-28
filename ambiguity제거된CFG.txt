@@ -14,13 +14,15 @@ RHS -> boolstr
 
 ---------------------------------
 //5번 ambiguous있음
-EXPR -> EXPR addsub EXPR
-EXPR -> EXPR multdiv EXPR
+수정함
+EXPR -> EXPR_
+EXPR -> EXPR_ addsub EXPR
+EXPR -> EXPR_ multdiv EXPR
 --------------------------------
-//5번 수정하면 6번 이상하게 됨.. 일단 이따가 다시 고쳐보자
-EXPR -> lparen EXPR rparen 
-EXPR -> id 
-EXPR -> num
+//5번 수정함에 따라 6번도 수정
+EXPR_ -> lparen EXPR rparen 
+EXPR_ -> id 
+EXPR_ -> num
 --------------------------------
 FDECL -> vtype id lparen ARG rparen lbrace BLOCK RETURN rbrace
 ARG -> vtype id MOREARGS 
