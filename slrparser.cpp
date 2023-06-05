@@ -346,6 +346,19 @@ void printremaininginputVe(std::vector<std::string>&  inputVe, int i) {
     }
 }
 
+void printveForStr2othervec(std::vector<std::string>& veForStr, std::vector<std::string>& othervec) {
+    for (int i = 0; i < veForStr.size(); i++) {
+        //std::cout << veForStr.at(i) << " ";
+        othervec.push_back(veForStr.at(i));
+    }
+}
+void printremaininginputVe2othervec(std::vector<std::string>& inputVe, int i, std::vector<std::string>& othervec) {
+    for (; i < inputVe.size(); i++) {
+        othervec.push_back(inputVe.at(i));
+    }
+}
+
+
 
 int main(int argc, char** argv) {
 
@@ -581,12 +594,18 @@ int main(int argc, char** argv) {
     std::vector<int> stForState;
     stForState.push_back(0);
     std::vector<std::string> veForStr;
+    std::vector<std::vector<std::string>> veveForParseTree;
+    std::vector<std::string>* veForParseTree;
 
     std::string nextstr;
     int i = 0;
-    printveForStr(veForStr);
-    printremaininginputVe(inputVe, i);
-    std::cout << "\n";
+    //printveForStr(veForStr);
+    //printremaininginputVe(inputVe, i);
+    //std::cout << "\n";
+    veForParseTree = new std::vector<std::string>;
+    printveForStr2othervec(veForStr, *veForParseTree);
+    printremaininginputVe2othervec(inputVe, i, *veForParseTree);
+    veveForParseTree.push_back(*veForParseTree);
     while (true) {
         currentState = stForState.back();
         nextstr = inputVe.at(i);
@@ -606,32 +625,46 @@ int main(int argc, char** argv) {
         else if (action_char == 'r') {
             reduceVeForStrThingBy(slr_grammar, veForStr, action_int);
             reduceStForStateThingBy(slr_grammar, stForState, action_int);
-            printveForStr(veForStr);
-            printremaininginputVe(inputVe, i);
-            std::cout << "\n";
+
+            veForParseTree = new std::vector<std::string>;
+            printveForStr2othervec(veForStr, *veForParseTree);
+            printremaininginputVe2othervec(inputVe, i, *veForParseTree);
+            veveForParseTree.push_back(*veForParseTree);
+
             currentState = stForState.back();
             action_int = LR_table_state[currentState][indexOf(veForStr.back(), LR_table_action_stand)];
             stForState.push_back(action_int);
         }
         else if (action_char == 'a') {
-            std::cout << "CODE";
-            std::cout << "\n";
+            veForParseTree = new std::vector<std::string>;
+            (*veForParseTree).push_back("CODE");
+            veveForParseTree.push_back(*veForParseTree);
+            //std::cout << "CODE";
+            //std::cout << "\n";
             std::cout << "성공\n";
+            std::cout << "parse tree 생성 \n";
+            for (int i = veveForParseTree.size() - 1; i >= 0; i--) {
+                for (int j = 0; j < veveForParseTree.at(i).size(); j++) {
+                    std::cout << veveForParseTree.at(i).at(j) << " ";
+                }
+                std::cout << "\n";
+            }
             break;
         }
         else if (action_char == 'x') {
+            std::cout << "파싱 불가 지점 발견\n";
             printveForStr(veForStr);
-            std::cout << "|";
+            std::cout << "| ";
             printremaininginputVe(inputVe, i);
             std::cout << "\n";
+            std::cout << "실패 당시 state : " << currentState << ", | 뒤의 input : " << nextstr << "\n";
+            std::cout << "위에 해당하는 조건의 action은 없습니다.\n";
             std::cout << "파싱 불가능";
             std::cout << "\n";
             std::cout << "실패\n";
             break;
         }
     }
-   
-
     std::cout << "프로그램종료\n";
 
     return 0;
